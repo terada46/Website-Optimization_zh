@@ -1,14 +1,13 @@
 /*
 欢迎来到我们的60fps项目！你的目标是使Cam's Pizzeria网站能流畅的运行在60fps下。
 
-在这里的代码中主要有两个问题使性能低于60fps。你能发现并修复它们吗？
-
 在代码中，你会发现一些使用User Timing API(window.performance)的例子，它们使用
 console.log()将帧率数据输入到浏览器的控制台中。如果你想了解更多关于User Timing API
 的信息，请访问：http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
 
 
 创建者:
+在这里的代码中主要有两个问题使性能低于60fps。你能发现并修复它们吗？
 Cameron Pittman, Udacity 课程开发者
 cameron@udacity.com
 */
@@ -18,6 +17,7 @@ cameron@udacity.com
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
+
   "Sausage",
   "Fennel Sausage",
   "Spicy Sausage",
@@ -403,13 +403,13 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -422,7 +422,7 @@ var resizePizzas = function(size) {
 	//原changePizzaSizes函数的for循环中执行determineDX函数造成强制布局同步
    //将sizeSwitcher函数内的条件语句移至changePizzaSizes函数内，通过size值直接按比例改变元素尺寸，删去计算繁琐determineDx函数
   function changePizzaSizes(size) {
-	var randomPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+	var randomPizzaContainers = randomPizzas.getElementsByClassName("randomPizzaContainer");
 	
 	// 将值转成百分比数字
 	switch(size) {
@@ -519,7 +519,9 @@ window.addEventListener('scroll', function(){
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 48; i++) {
+  // 根据BODY高度来计算实际需要的pizza数量
+  var pizzaNum = Math.floor( document.body.clientHeight / s ) * cols;
+  for (var i = 0; i < pizzaNum; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
